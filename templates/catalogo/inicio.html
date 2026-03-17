@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Biblioteca Personal</h1>
+
+<p>Bienvenido a la biblioteca.</p>
+
+<ul>
+    <li><a href="{% url 'lista_libros' %}">Libros</a></li>
+    <li><a href="{% url 'lista_autores' %}">Autores</a></li>
+    <li><a href="{% url 'lista_editoriales' %}">Editoriales</a></li>
+</ul>
+{% endblock %}

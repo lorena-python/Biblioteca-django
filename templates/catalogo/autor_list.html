@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Autores</h1>
+
+<form method="post" class="row g-2 mb-3">
+  {% csrf_token %}
+  <div class="col-auto">
+    {{ form.nombre }}
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-success">+ Nuevo autor</button>
+  </div>
+</form>
+
+<ul>
+  {% for a in autores %}
+ <li>
+  <a href="{% url 'detalle_autor' a.pk %}">{{ a.nombre }}</a>
+</li>
+  {% empty %}
+    <li>No hay autores.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

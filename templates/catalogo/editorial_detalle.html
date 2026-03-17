@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ editorial.nombre }}</h1>
+
+<h3>Libros de esta editorial</h3>
+<ul>
+  {% for l in libros %}
+    <li>
+      <a href="{% url 'detalle_libro' l.pk %}">{{ l.titulo }}</a>
+    </li>
+  {% empty %}
+    <li>No hay libros para esta editorial.</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

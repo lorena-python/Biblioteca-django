@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Mi perfil{% endblock %}
+
+{% block content %}
+<h1>Mi perfil</h1>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Información del usuario</h5>
+    <p class="mb-1"><strong>Usuario:</strong> {{ usuario.username }}</p>
+    <p class="mb-1"><strong>Nombre:</strong> {{ usuario.first_name|default:"-" }}</p>
+    <p class="mb-1"><strong>Apellidos:</strong> {{ usuario.last_name|default:"-" }}</p>
+    <p class="mb-0"><strong>Email:</strong> {{ usuario.email|default:"-" }}</p>
+  </div>
+</div>
+
+<h3>Libros actualmente alquilados</h3>
+
+{% if alquileres_activos %}
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Libro</th>
+        <th>Fecha inicio</th>
+        <th>Devolución prevista</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in alquileres_activos %}
+      <tr>
+        <td>{{ a.libro }}</td>
+        <td>{{ a.fecha_inicio }}</td>
+        <td>{{ a.fecha_devolucion_prevista }}</td>
+        <td>{{ a.estado }}</td>
+        <td>
+          <form method="post" action="{% url 'devolver_alquiler' a.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">
+                  Devolver
+              </button>
+          </form>
+      </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <div class="alert alert-info">No tienes libros alquilados actualmente.</div>
+{% endif %}
+
+{% endblock %}

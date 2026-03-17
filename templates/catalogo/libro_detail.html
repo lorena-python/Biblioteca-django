@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ libro.titulo }} - Detalle{% endblock %}
+
+{% block content %}
+<h1>{{ libro.titulo }}</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        {% if libro.portada %}
+            <img src="{{ libro.portada.url }}" alt="Portada" class="img-fluid mb-3">
+        {% else %}
+            <p><em>Sin portada</em></p>
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <p><strong>Autor:</strong> {{ libro.autor }}</p>
+        <p><strong>Editorial:</strong> {{ libro.editorial|default:"-" }}</p>
+        <p><strong>Fecha de publicación:</strong> {{ libro.fecha_publicacion }}</p>
+        <p><strong>Sinopsis:</strong></p>
+        <p>{{ libro.sinopsis }}</p>
+
+        <a href="{% url 'editar_libro' libro.pk %}" class="btn btn-warning">Editar</a>
+        <a href="{% url 'eliminar_libro' libro.pk %}" class="btn btn-danger">Eliminar</a>
+        <a href="{% url 'lista_libros' %}" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+
+
+<hr>
+
+<h3>Comentarios</h3>
+
+{% for comentario in libro.comentarios.all %}
+    <div style="margin-bottom:10px;">
+        <strong>{{ comentario.autor }}</strong><br>
+        {{ comentario.texto }}
+        <br>
+        <small>{{ comentario.creado }}</small>
+    </div>
+{% empty %}
+    <p>No hay comentarios todavía.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <a href="{% url 'crear_comentario' libro.pk %}">
+        Añadir comentario
+    </a>
+{% else %}
+    <p>
+        <a href="{% url 'login' %}">
+            Inicia sesión
+        </a> para poder comentar.
+    </p>
+{% endif %}
+
+{% endblock %}

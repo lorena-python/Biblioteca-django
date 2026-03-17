@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Editoriales - Biblioteca{% endblock %}
+
+{% block content %}
+<h1>Editoriales</h1>
+
+<form method="post" class="mb-3">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Añadir editorial</button>
+</form>
+
+<ul>
+  {% for e in editoriales %}
+<li>
+  <a href="{% url 'detalle_editorial' e.pk %}">{{ e.nombre }}</a>
+</li>
+  {% empty %}
+    <li>No hay editoriales.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
